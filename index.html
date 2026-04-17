@@ -11,7 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 
 body{
-    height:100vh;
+    min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -37,6 +37,8 @@ body::before{
     max-width:320px;
     text-align:center;
     color:white;
+
+    margin-bottom:150px; /* FIX bị che */
 }
 
 /* avatar */
@@ -70,16 +72,16 @@ body::before{
     color:black;
 }
 
-/* PLAYER MOBILE */
+/* PLAYER */
 .music-player{
     position:fixed;
-    bottom:10px;
-    left:10px;
-    right:10px;
-    width:auto;
-    padding:12px;
-    border-radius:20px;
-    background:rgba(0,0,0,0.8);
+    bottom:0;
+    left:0;
+    right:0;
+    width:100%;
+    padding:12px 12px 20px;
+    border-radius:20px 20px 0 0;
+    background:rgba(0,0,0,0.9);
     color:white;
 }
 
@@ -109,6 +111,7 @@ body::before{
     background:rgba(255,255,255,0.2);
     border-radius:5px;
     overflow:hidden;
+    cursor:pointer;
 }
 
 .progress-bar{
@@ -122,17 +125,16 @@ body::before{
     margin-top:10px;
     display:flex;
     justify-content:center;
-    gap:15px;
+    gap:20px;
 }
 
 .music-btn{
-    padding:10px 16px;
+    padding:12px 18px;
     border:none;
-    border-radius:12px;
+    border-radius:14px;
     background:#00c3ff;
     color:white;
-    font-size:16px;
-    cursor:pointer;
+    font-size:18px;
 }
 
 /* volume */
@@ -276,11 +278,12 @@ function format(t){
     return `${m}:${s<10?'0'+s:s}`;
 }
 
-/* click tua */
-progress.onclick = (e)=>{
-    let percent = e.offsetX / progress.clientWidth;
+/* tua mượt */
+progress.addEventListener("click",(e)=>{
+    const rect = progress.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
     music.currentTime = percent * music.duration;
-};
+});
 
 /* WAVE */
 const canvas = document.getElementById("wave");
