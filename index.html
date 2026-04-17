@@ -83,14 +83,18 @@ body::before{
 }
 
 /* mobile tự xuống dưới */
-@media(max-width:600px){
-    .music-player{
-        top:auto;
-        bottom:10px;
-        left:10px;
-        right:10px;
-        width:auto;
-    }
+.music-player{
+    position:fixed;
+    top:20px;
+    right:20px;
+    width:260px;
+    padding:15px;
+    border-radius:20px;
+    background:rgba(0,0,0,0.8);
+    backdrop-filter:blur(10px);
+    color:white;
+    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    z-index:999;
 }
 
 /* top */
