@@ -33,10 +33,10 @@ body::before{
     backdrop-filter:blur(15px);
     border-radius:25px;
     padding:30px;
-    width:300px;
+    width:90%;
+    max-width:320px;
     text-align:center;
     color:white;
-    box-shadow:0 20px 50px rgba(0,0,0,0.6);
 }
 
 /* avatar */
@@ -57,31 +57,30 @@ body::before{
 }
 
 .link-box{
-    padding:12px;
+    padding:14px;
     border-radius:12px;
     background:rgba(255,255,255,0.08);
     color:white;
     text-decoration:none;
-    transition:0.3s;
+    font-size:15px;
 }
 
 .link-box:hover{
     background:white;
     color:black;
-    transform:scale(1.05);
 }
 
-/* PLAYER */
+/* PLAYER MOBILE */
 .music-player{
     position:fixed;
-    top:30px;
-    right:30px;
-    width:260px;
-    padding:15px;
+    bottom:10px;
+    left:10px;
+    right:10px;
+    width:auto;
+    padding:12px;
     border-radius:20px;
-    background:rgba(0,0,0,0.7);
+    background:rgba(0,0,0,0.8);
     color:white;
-    box-shadow:0 10px 30px rgba(0,0,0,0.6);
 }
 
 /* top */
@@ -92,10 +91,9 @@ body::before{
 }
 
 .music-cover{
-    width:70px;
-    height:70px;
+    width:55px;
+    height:55px;
     border-radius:10px;
-    object-fit:cover;
 }
 
 /* time */
@@ -106,9 +104,11 @@ body::before{
 
 /* progress */
 .progress{
-    height:4px;
+    height:6px;
     margin-top:10px;
     background:rgba(255,255,255,0.2);
+    border-radius:5px;
+    overflow:hidden;
 }
 
 .progress-bar{
@@ -122,15 +122,16 @@ body::before{
     margin-top:10px;
     display:flex;
     justify-content:center;
-    gap:10px;
+    gap:15px;
 }
 
 .music-btn{
-    padding:6px 12px;
+    padding:10px 16px;
     border:none;
-    border-radius:10px;
+    border-radius:12px;
     background:#00c3ff;
     color:white;
+    font-size:16px;
     cursor:pointer;
 }
 
@@ -143,7 +144,7 @@ body::before{
 /* wave */
 canvas{
     width:100%;
-    height:50px;
+    height:40px;
     margin-top:10px;
 }
 </style>
@@ -161,7 +162,7 @@ canvas{
             <i class="fab fa-facebook"></i> Facebook
         </a>
 
-        <a href="https://www.tiktok.com/@aabcdxyzz25?_r=1&_t=ZS-95aeBgg0nwN" target="_blank" class="link-box">
+        <a href="https://www.tiktok.com/@aabcdxyzz25" target="_blank" class="link-box">
             <i class="fab fa-tiktok"></i> TikTok
         </a>
 
@@ -169,7 +170,7 @@ canvas{
             <i class="fab fa-instagram"></i> Instagram
         </a>
 
-        <a href="https://www.threads.com/@ngnl.ong?fbclid=IwY2xjawRPK_pleHRuA2FlbQIxMABicmlkETFtZTZFbVRCTHhXekxiVlczc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHv67_mW7h7xbyWUptVSNYhO3GLS4t5W-dTNXeb1_v1_vbO5vAm8IHjvyvdcW_aem_tZ99isQHOn1oAyVMEn9xKA" target="_blank" class="link-box">
+        <a href="https://www.threads.com/@ngnl.ong" target="_blank" class="link-box">
             <i class="fa-brands fa-threads"></i> Threads
         </a>
     </div>
@@ -180,14 +181,14 @@ canvas{
     <div class="music-top">
         <img src="anh7.png" class="music-cover">
         <div>
-            <div id="title">Nhạc 1</div>
+            <div id="title">Nhạc</div>
             <div class="time" id="time">00:00 / 00:00</div>
         </div>
     </div>
 
     <canvas id="wave"></canvas>
 
-    <div class="progress">
+    <div class="progress" id="progress">
         <div class="progress-bar" id="bar"></div>
     </div>
 
@@ -209,8 +210,9 @@ const bar = document.getElementById('bar');
 const title = document.getElementById('title');
 const time = document.getElementById('time');
 const volume = document.getElementById('volume');
+const progress = document.getElementById('progress');
 
-/* 5 bài nhạc */
+/* playlist */
 const songs = [
     {src:"thaihoang.mp3", name:"Chan bố mày đi"},
     {src:"friend.mp3", name:"25"},
@@ -252,6 +254,9 @@ function prev(){
     music.play();
 }
 
+/* auto next */
+music.onended = next;
+
 /* volume */
 volume.oninput = ()=> music.volume = volume.value;
 
@@ -270,6 +275,12 @@ function format(t){
     let s = Math.floor(t%60);
     return `${m}:${s<10?'0'+s:s}`;
 }
+
+/* click tua */
+progress.onclick = (e)=>{
+    let percent = e.offsetX / progress.clientWidth;
+    music.currentTime = percent * music.duration;
+};
 
 /* WAVE */
 const canvas = document.getElementById("wave");
@@ -298,7 +309,7 @@ function draw(){
     for(let i=0;i<data.length;i++){
         let h = data[i]/2;
         ctx.fillStyle = "#00c3ff";
-        ctx.fillRect(i*4,50-h,3,h);
+        ctx.fillRect(i*4,40-h,3,h);
     }
 }
 
